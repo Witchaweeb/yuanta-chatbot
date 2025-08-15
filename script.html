@@ -3,79 +3,110 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Yuanta Chatbot - Test</title>
+    <meta name="robots" content="noindex" />
+    <title>Yuanta Chatbot</title>
+
+    <!-- Perf hints: allow early connection to CDN & webhook host -->
+    <link rel="preconnect" href="https://cdn.n8nchatui.com" crossorigin>
+    <link rel="preconnect" href="https://n8n-shares.shantilink.com" crossorigin>
+
     <style>
-      html, body { height: 100%; margin: 0; }
-      /* กันกรอบขาว เผื่อมี margin/padding จาก theme อื่น */
-      body { min-height: 100vh; }
+      /* Reset + full-viewport canvas */
+      html, body { height: 100%; }
+      html { box-sizing: border-box; }
+      *, *::before, *::after { box-sizing: inherit; }
+      body { margin: 0; min-height: 100vh; background: #ffffff; }
+
+      /* Optional loading message (hidden once chatbot mounts) */
+      .boot { position: fixed; inset: 0; display: grid; place-items: center; font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Thai", "Noto Sans", Arial; color: #0a0a0a; }
+      .boot.hide { display: none; }
     </style>
   </head>
   <body>
+    <div id="boot" class="boot">กำลังโหลด Yuanta Chatbot …</div>
+
+    <noscript>
+      <div class="boot">ต้องเปิดใช้ JavaScript เพื่อใช้งาน Yuanta Chatbot</div>
+    </noscript>
+
     <script type="module">
+      // Import the n8n chat UI as an ES module from CDN
       import Chatbot from "https://cdn.n8nchatui.com/v1/embed.js";
 
+      // Initialize after DOM is ready
       window.addEventListener("DOMContentLoaded", () => {
-        Chatbot.initFull({
-          n8nChatUrl: "https://n8n-shares.shantilink.com/webhook/394e5745-17e7-4224-8e65-535a1c2cec80/chat",
-          metadata: {},
-          theme: {
-            button: { iconColor: "#000000", backgroundColor: "#0a6ee5" },
-            chatWindow: {
-              borderRadiusStyle: "rounded",
-              avatarBorderRadius: 20,
-              messageBorderRadius: 6,
-              showTitle: true,
-              title: "Yuanta Chatbot",
-              titleAvatarSrc: "https://www.svgrepo.com/show/339963/chat-bot.svg",
-              avatarSize: 40,
-              welcomeMessage: "สวัสดีครับ 👋 ผมคือ Yuanta Chatbot ช่วยเปิดบัญชี/คำถามค่าธรรมเนียม/ฝาก–ถอน/คุยกับเจ้าหน้าที่ และวิเคราะห์หุ้นไทยเบื้องต้นให้ได้ครับ",
-              errorMessage: "Please connect me to n8n first",
-              backgroundColor: "#ffffff",
-              height: "100vh",
-              width: "100%",
-              fontSize: 16,
-              starterPrompts: ["ขั้นตอนการเปิดบัญชีหุ้น"],
-              starterPromptFontSize: 15,
-              renderHTML: false,
-              clearChatOnReload: false,
-              showScrollbar: false,
-              botMessage: {
-                backgroundColor: "#0a6ee5",
-                textColor: "#fafafa",
-                showAvatar: true,
-                avatarSrc: "https://www.svgrepo.com/show/334455/bot.svg"
-              },
-              userMessage: {
-                backgroundColor: "#fff6f3",
-                textColor: "#050505",
-                showAvatar: true,
-                avatarSrc: "https://www.svgrepo.com/show/532363/user-alt-1.svg"
-              },
-              textInput: {
-                placeholder: "Type your query",
+        try {
+          Chatbot.initFull({
+            n8nChatUrl: "https://n8n-shares.shantilink.com/webhook/394e5745-17e7-4224-8e65-535a1c2cec80/chat",
+            metadata: {},
+            theme: {
+              button: { iconColor: "#000000", backgroundColor: "#0a6ee5" },
+              chatWindow: {
+                borderRadiusStyle: "rounded",
+                avatarBorderRadius: 20,
+                messageBorderRadius: 6,
+                showTitle: true,
+                title: "Yuanta Chatbot",
+                titleAvatarSrc: "https://www.svgrepo.com/show/339963/chat-bot.svg",
+                avatarSize: 40,
+                welcomeMessage: "สวัสดีครับ 👋 ผมคือ Yuanta Chatbot ช่วยเปิดบัญชี/คำถามค่าธรรมเนียม/ฝาก–ถอน/คุยกับเจ้าหน้าที่ และวิเคราะห์หุ้นไทยเบื้องต้นให้ได้ครับ",
+                errorMessage: "Please connect me to n8n first",
                 backgroundColor: "#ffffff",
-                textColor: "#1e1e1f",
-                sendButtonColor: "#0a6ee5",
-                maxChars: 50,
-                maxCharsWarningMessage: "You exceeded the characters limit. Please input less than 50 characters.",
-                autoFocus: false,
-                borderRadius: 6,
-                sendButtonBorderRadius: 50
-              },
-              uploadsConfig: {
-                enabled: true,
-                acceptFileTypes: ["png","jpeg","jpg","pdf"],
-                maxSizeInMB: 5,
-                maxFiles: 1
-              },
-              voiceInputConfig: {
-                enabled: true,
-                maxRecordingTime: 10,
-                recordingNotSupportedMessage: "To record audio, use modern browsers like Chrome or Firefox that support audio recording"
+                height: "100vh",
+                width: "100%",
+                fontSize: 16,
+                starterPrompts: ["ขั้นตอนการเปิดบัญชีหุ้น"],
+                starterPromptFontSize: 15,
+                renderHTML: false,
+                clearChatOnReload: false,
+                showScrollbar: false,
+                botMessage: {
+                  backgroundColor: "#0a6ee5",
+                  textColor: "#fafafa",
+                  showAvatar: true,
+                  avatarSrc: "https://www.svgrepo.com/show/334455/bot.svg"
+                },
+                userMessage: {
+                  backgroundColor: "#fff6f3",
+                  textColor: "#050505",
+                  showAvatar: true,
+                  avatarSrc: "https://www.svgrepo.com/show/532363/user-alt-1.svg"
+                },
+                textInput: {
+                  placeholder: "Type your query",
+                  backgroundColor: "#ffffff",
+                  textColor: "#1e1e1f",
+                  sendButtonColor: "#0a6ee5",
+                  maxChars: 50,
+                  maxCharsWarningMessage: "You exceeded the characters limit. Please input less than 50 characters.",
+                  autoFocus: false,
+                  borderRadius: 6,
+                  sendButtonBorderRadius: 50
+                },
+                uploadsConfig: {
+                  enabled: true,
+                  acceptFileTypes: ["png","jpeg","jpg","pdf"],
+                  maxSizeInMB: 5,
+                  maxFiles: 1
+                },
+                voiceInputConfig: {
+                  enabled: true,
+                  maxRecordingTime: 10,
+                  recordingNotSupportedMessage: "To record audio, use modern browsers like Chrome or Firefox that support audio recording"
+                }
               }
             }
-          }
-        });
+          });
+        } catch (err) {
+          console.error("Chatbot init failed:", err);
+          document.getElementById("boot")?.classList.remove("hide");
+          document.getElementById("boot").textContent = "โหลดไม่สำเร็จ ลองรีเฟรชหน้าเว็บอีกครั้ง";
+        }
+      });
+
+      // Hide loading text once the first animation frame has painted
+      requestAnimationFrame(() => {
+        document.getElementById("boot")?.classList.add("hide");
       });
     </script>
   </body>
